@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zé Mathyas - Cardápio Digital</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="hero">
+    <h1>Zé Mathyas</h1>
+    <p>Experiência premium em Horizonte, CE</p>
+    <button onclick="scrollToMenu()">Ver Cardápio</button>
+  </header>
+
+  <nav id="category-nav" class="category-nav"></nav>
+
+  <div id="welcome-message" class="welcome-container" style="display: none;">
+    <p>Bem-vindo ao Zé Mathyas! Você está na <strong><span id="mesa-numero"></span></strong></p>
+  </div>
+
+  <main id="menu"></main>
+
+  <div class="cart" onclick="abrirCarrinho()" style="cursor: pointer;">
+    <div>
+      <span id="cart-count">0</span> itens
+      <strong>R$ <span id="cart-total">0.00</span></strong>
+    </div>
+    <span class="btn-revisar">Revisar Pedido</span>
+  </div>
+
+  <div id="cart-modal" class="cart-modal">
+    <div class="cart-modal-content">
+      <span class="close-modal" onclick="fecharCarrinho()">×</span>
+      <h2>Revisão do Pedido</h2>
+      
+      <div id="cart-items"></div>
+
+      <div class="order-notice">
+        <small>🔔 <strong>Aviso:</strong> Este pedido será enviado para a cozinha/bar agora. Para novos itens depois, basta fazer um novo pedido.</small>
+      </div>
+
+      <div class="obs-container">
+        <label for="order-obs">📝 Observações ou Preferências:</label>
+        <textarea id="order-obs" placeholder="Ex: Carne ao ponto, sem cebola, gelo e limão à parte..."></textarea>
+      </div>
+
+      <div class="taxa-container">
+        <label class="switch-container">
+          <input type="checkbox" id="taxa-servico" checked onchange="atualizarCarrinho()">
+          <span class="slider"></span>
+          Incluir Taxa de Serviço (10%)
+        </label>
+      </div>
+
+      <div class="mesa-container">
+        <label for="mesa-select">Sua Mesa:</label>
+        <select id="mesa-select">
+          <option value="">Selecione...</option>
+          <option value="01">Mesa 01</option>
+          <option value="02">Mesa 02</option>
+          <option value="03">Mesa 03</option>
+          <option value="04">Mesa 04</option>
+          <option value="05">Mesa 05</option>
+          <option value="Balcão">Balcão</option>
+        </select>
+      </div>
+
+      <button class="btn-finalizar-modal" onclick="finalizarPedido()">
+        Confirmar e Enviar para Cozinha
+      </button>
+    </div>
+  </div>
+
+  <script src="data/produtos.js"></script>
+  <script src="js/app.js"></script>
+  
+</body>
+</html>
