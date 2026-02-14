@@ -5,7 +5,7 @@ const categoryNav = document.getElementById("category-nav");
 const cartModal = document.getElementById("cart-modal");
 
 let carrinho = [];
-const TELEFONE_RESTAURANTE = "5585999999999"; // Ajuste para o número do Zé Mathyas
+const TELEFONE_RESTAURANTE = "5585981251110"; // Ajuste para o número do Zé Mathyas
 
 // ---------- FUNÇÕES GLOBAIS ----------
 
@@ -244,5 +244,6 @@ function mostrarSucesso() {
     setTimeout(() => alertDiv.classList.add("show"), 100);
     setTimeout(() => alertDiv.classList.remove("show"), 4000);
 }
+
 
 init();
