@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Painel Admin - Cardápio</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#111;
+color:white;
+padding:40px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-bottom:10px;
+border:none;
+border-radius:6px;
+}
+
+button{
+padding:10px 20px;
+border:none;
+border-radius:6px;
+background:#ff6600;
+color:white;
+cursor:pointer;
+}
+
+.produto{
+background:#222;
+padding:15px;
+margin-top:10px;
+border-radius:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Painel Admin</h1>
+
+<h2>Adicionar Produto</h2>
+
+<input id="nome" placeholder="Nome do produto">
+<input id="descricao" placeholder="Descrição">
+<input id="preco" placeholder="Preço">
+<input id="categoria" placeholder="Categoria">
+<input id="imagem" placeholder="URL da imagem">
+
+<button onclick="addProduto()">Adicionar</button>
+
+<hr>
+
+<h2>Produtos cadastrados</h2>
+
+<div id="lista"></div>
+
+</div>
+
+<script type="module">
+
+import { db } from "./dados/firebase.js";
+
+import {
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+const lista = document.getElementById("lista");
+
+
+// ADICIONAR PRODUTO
+
+window.addProduto = async function(){
+
+const nome = document.getElementById("nome").value;
+const descricao = document.getElementById("descricao").value;
+const preco = Number(document.getElementById("preco").value);
+const categoria = document.getElementById("categoria").value;
+const imagem = document.getElementById("imagem").value;
+
+if(!nome) return alert("Digite o nome");
+
+await addDoc(collection(db,"produtos"),{
+
+nome,
+descricao,
+preco,
+categoria,
+imagem
+
+});
+
+alert("Produto adicionado!");
+
+carregarProdutos();
+
+}
+
+
+// LISTAR PRODUTOS
+
+async function carregarProdutos(){
+
+lista.innerHTML="";
+
+const querySnapshot = await getDocs(collection(db,"produtos"));
+
+querySnapshot.forEach((docItem)=>{
+
+const p = docItem.data();
+
+const div = document.createElement("div");
+
+div.className="produto";
+
+div.innerHTML=`
+
+<div>
+
+<strong>${p.nome}</strong><br>
+
+R$ ${p.preco}
+
+</div>
+
+<button onclick="remover('${docItem.id}')">
+
+Excluir
+
+</button>
+
+`;
+
+lista.appendChild(div);
+
+});
+
+}
+
+
+// REMOVER
+
+window.remover = async function(id){
+
+await deleteDoc(doc(db,"produtos",id));
+
+carregarProdutos();
+
+}
+
+carregarProdutos();
+
+</script>
+
+</body>
+</html>
